@@ -1,3 +1,6 @@
+
+-- El precio se creó como decimal(3,2), que sólo admite valores de hasta 9.99 y se corrigió para admitir 
+-- valores de hasta 999.99
 alter table servicios modify precio decimal (5,2);
 
 insert into servicios (nombre, precio, duracion) VALUES 
@@ -16,26 +19,33 @@ insert into clientes (nombre, telefono, email) VALUES
 ('Catalina Torrandell', '665257339', 'ctorr@gmail.com'),
 ('Yerling Murillo', '685288196', 'ymur@gmail.com'),
 ('Laura Bibiloni', '971867379', 'lbibi@gmail.com'),
-('Aina Amengual', '971865715', 'ameng@gamil.com');
+('Aina Amengual', '971865715', 'ameng@gmail.com');
 
+
+-- Durante el desarrollo, los empleados se insertaron varias veces debido a errores en las especialidades,
+-- que provocó que AUTOINCREMENT asignara ids más altos, porque lo que se optó por corregirlo para que la 
+-- base de datos quede "limpia"
 insert into servicio_empleado (id_empleado, id_servicio) VALUES
-(7,1),
-(7,4),
-(7,3),
-(8,3),
-(8,2),
-(9,1),
-(9,4),
-(9,2);
+(1,1),
+(1,4),
+(1,3),
+(2,3),
+(2,2),
+(3,1),
+(3,4),
+(3,2);
 
-insert into cita (fecha, hora, id_cliente, id_servicio, id_empleado) values 
-('2026-03-20', '10:00:00', 1, 1, 7),
-('2026-03-20', '11:00:00', 2, 1, 9),
-('2026-03-20', '10:00:00', 3, 2, 8),
-('2026-03-20', '12:00:00', 4, 3, 9),
-('2026-03-20', '12:00:00', 5, 4, 7);
-
-
+-- La tabla se creó inicialmente como "cita", en singular, y se ha renombrado para mantener la coherencia
+-- con el resto de tablas
 alter table cita rename to citas;
+
+insert into citas (fecha, hora, id_cliente, id_servicio, id_empleado) values 
+('2026-03-20', '10:00:00', 1, 1, 1),
+('2026-03-20', '11:00:00', 2, 1, 3),
+('2026-03-20', '10:00:00', 3, 2, 2),
+('2026-03-20', '12:00:00', 4, 3, 3),
+('2026-03-20', '12:00:00', 5, 4, 1);
+
+
 
 

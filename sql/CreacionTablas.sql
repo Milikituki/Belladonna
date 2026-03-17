@@ -27,12 +27,15 @@ create table cita (
     id_servicio int,
     id_empleado int,
     
-    foreign key (id_cliente) references clientes(id_cliente),
-    foreign key (id_servicio) references servicios(id_servicio),
+    foreign key (id_cliente) references clientes(id_cliente)
+        on delete restrict
+        on update cascade,
+    foreign key (id_servicio) references servicios(id_servicio)
+        on delete restrict
+        on update cascade,
     foreign key (id_empleado) references empleados(id_empleado)
-    
-    on delete restrict
-    on update cascade
+        on delete restrict
+        on update cascade
 );
 
 create table servicio_empleado (
@@ -40,9 +43,10 @@ create table servicio_empleado (
     id_servicio int,
     
     primary key (id_empleado, id_servicio),
-    foreign key (id_empleado) references empleados(id_empleado),
+    foreign key (id_empleado) references empleados(id_empleado)
+        on delete restrict
+        on update cascade,
     foreign key (id_servicio) references servicios(id_servicio)
-    
-    on delete RESTRICT
-    on update CASCADE
+        on delete RESTRICT
+        on update CASCADE
 );
