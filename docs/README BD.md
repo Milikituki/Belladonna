@@ -1,6 +1,7 @@
 # Análisis de Base de Datos
 
 ## Empresa
+
 Belladonna Estética es un centro de estética que ofrece servicios
 como manicura semipermanente, lifting de pestañas, depilación con cera
 y diseño de cejas.
@@ -32,6 +33,7 @@ Un empleado puede realizar varios servicios.
 Un servicio puede realizarlo varios empleados.
 
 Cada cita está asociada con:
+
 - un cliente
 - un servicio
 - un empleado
