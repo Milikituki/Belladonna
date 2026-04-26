@@ -67,9 +67,19 @@ La web es responsive y se adapta a dispositivos móviles mediante media queries.
 
 ## Aplicación Java
 
-*(En desarrollo)*
+Aplicación de gestión por consola conectada a la base de datos Belladonna mediante JDBC. Permite gestionar el día a día del centro de estética a través de operaciones CRUD sobre las siguientes entidades:
 
-Aplicación de gestión por consola conectada a la base de datos mediante JDBC. Permitirá realizar operaciones CRUD sobre las entidades del negocio: dar de alta clientes, gestionar citas, consultar servicios, etc.
+- **Clientes** — Alta, consulta, modificación y eliminación de clientes
+- **Servicios** — Gestión del catálogo de tratamientos (nombre, precio, duración)
+- **Empleados** — Gestión del equipo profesional y sus especialidades
+- **Citas** — Reserva y gestión de citas vinculando cliente, servicio, empleado, fecha y hora
+
+La aplicación sigue una arquitectura organizada por capas:
+
+- `model/` — Clases de datos (Cliente, Servicio, Empleado, Cita) con Lombok
+- `dao/` — Acceso a datos con PreparedStatement (un DAO por entidad)
+- `controller/` — Lógica de los menús y flujo de la aplicación
+- `database/` — Conexión singleton a MySQL y constantes de esquema (SchemDB)
 
 ## Cómo ejecutar el proyecto
 
@@ -82,7 +92,12 @@ Aplicación de gestión por consola conectada a la base de datos mediante JDBC. 
 3. Usa `sql/Queries.sql` para probar las consultas.
 
 ### Aplicación Java
-*(Instrucciones disponibles próximamente)*
+1. Asegúrate de tener XAMPP arrancado con MySQL activo.
+2. Comprueba que la base de datos `Belladonna` está creada con los datos importados.
+3. Abre la carpeta `BelladonnaGestion/` como proyecto en IntelliJ IDEA.
+4. Verifica que el conector `mysql-connector-j` está añadido como dependencia en el `pom.xml`.
+5. Ejecuta la clase `Main.java`.
+
 
 ## Autor
 
