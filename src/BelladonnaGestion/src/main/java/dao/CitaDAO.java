@@ -65,9 +65,64 @@ public class CitaDAO {
     }
 
     public void eliminarCita(int id) throws SQLException {
-        String query = String.format("DELETE FROM %s WHERE %s = ?", SchemDB.TAB_CITAS, SchemDB.COL_IDCITA, id);
+        String query = String.format("DELETE FROM %s WHERE %s = ?", SchemDB.TAB_CITAS, SchemDB.COL_IDCITA);
         preparedStatement = conexion.prepareStatement(query);
         preparedStatement.setInt(1, id);
         preparedStatement.execute();
+    }
+
+    public List<Cita> verCitasHoy() throws SQLException {
+        List<Cita> citas = new ArrayList<>();
+        String query = String.format("SELECT * FROM %s WHERE %s = ?", SchemDB.TAB_CITAS, SchemDB.COL_FECHA);
+        preparedStatement = conexion.prepareStatement(query);
+        preparedStatement.setDate(1, Date.valueOf(LocalDate.now()));
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            int id = resultSet.getInt(SchemDB.COL_IDCITA);
+            int idCliente = resultSet.getInt(SchemDB.COL_IDCLIENTE);
+            int idServicio = resultSet.getInt(SchemDB.COL_IDSERVICIO);
+            int idEmpleado = resultSet.getInt(SchemDB.COL_IDEMPLEADO);
+            LocalDate fecha = resultSet.getDate(SchemDB.COL_FECHA).toLocalDate();
+            LocalTime hora = resultSet.getTime(SchemDB.COL_HORA).toLocalTime();
+            citas.add(new Cita(id, idCliente, idServicio, idEmpleado, fecha, hora));
+        }
+        return citas;
+    }
+
+    public List<String> obtenerCitasDetalladas(LocalDate fecha) throws SQLException {
+        List<String> citas = new ArrayList<>();
+        String query = String.format(
+                "SELECT c.%s, c.%s, c.%s, c.%s, cl.%s AS cliente, s.%s AS servicio, e.%s AS empleado " +
+                        "FROM %s c " +
+                        "INNER JOIN %s cl ON c.%s = cl.%s " +
+                        "INNER JOIN %s s ON c.%s = s.%s " +
+                        "INNER JOIN %s e ON c.%s = e.%s",
+                SchemDB.COL_IDCITA, SchemDB.COL_FECHA, SchemDB.COL_HORA, SchemDB.COL_IDCLIENTE,
+                SchemDB.COL_NOMBRE, SchemDB.COL_NOMBRE, SchemDB.COL_NOMBRE,
+                SchemDB.TAB_CITAS,
+                SchemDB.TAB_CLIENTES, SchemDB.COL_IDCLIENTE, SchemDB.COL_IDCLIENTE,
+                SchemDB.TAB_SERVICIOS, SchemDB.COL_IDSERVICIO, SchemDB.COL_IDSERVICIO,
+                SchemDB.TAB_EMPLEADOS, SchemDB.COL_IDEMPLEADO, SchemDB.COL_IDEMPLEADO
+        );
+        if (fecha != null) {
+            query += String.format(" WHERE c.%s = ?", SchemDB.COL_FECHA);
+        }
+
+        preparedStatement = conexion.prepareStatement(query);
+        if (fecha != null) {
+            preparedStatement.setDate(1, Date.valueOf(fecha));
+        }
+        resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            int idCita = resultSet.getInt(SchemDB.COL_IDCITA);
+            int idCliente = resultSet.getInt(SchemDB.COL_IDCLIENTE);
+            String fechaCita = resultSet.getString(SchemDB.COL_FECHA);
+            String horaCita = resultSet.getString(SchemDB.COL_HORA);
+            String cliente = resultSet.getString("cliente");
+            String servicio = resultSet.getString("servicio");
+            String empleado = resultSet.getString("empleado");
+            citas.add("[" + idCita + "] " + fechaCita + " " + horaCita + " | Cliente (" + idCliente + "): " + cliente + " | Servicio: " + servicio + " | Empleado: " + empleado);
+        }
+        return citas;
     }
 }

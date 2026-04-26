@@ -61,7 +61,7 @@ public class EmpleadoDAO {
         }
 
         public void eliminarEmpleado(int id) throws SQLException {
-            String query = String.format("DELETE FROM %s WHERE %s = ?", SchemDB.TAB_EMPLEADOS,SchemDB.COL_IDEMPLEADO,id);
+            String query = String.format("DELETE FROM %s WHERE %s = ?", SchemDB.TAB_EMPLEADOS,SchemDB.COL_IDEMPLEADO);
             preparedStatement = conexion.prepareStatement(query);
             preparedStatement.setInt(1, id);
             preparedStatement.execute();

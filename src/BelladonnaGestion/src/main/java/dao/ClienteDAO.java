@@ -63,7 +63,7 @@ public class ClienteDAO {
     }
 
     public void eliminarCliente(int id) throws SQLException {
-        String query = String.format("DELETE FROM %s WHERE %s = ?", SchemDB.TAB_CLIENTES, SchemDB.COL_IDCLIENTE, id);
+        String query = String.format("DELETE FROM %s WHERE %s = ?", SchemDB.TAB_CLIENTES, SchemDB.COL_IDCLIENTE);
         preparedStatement = conexion.prepareStatement(query);
         preparedStatement.setInt(1, id);
         preparedStatement.execute();

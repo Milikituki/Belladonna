@@ -34,7 +34,7 @@ public class ServicioDAO {
                 int id = resultSet.getInt(SchemDB.COL_IDSERVICIO);
                 String nombre = resultSet.getString(SchemDB.COL_NOMBRE);
                 int duracion = resultSet.getInt(SchemDB.COL_DURACION);
-                int precio = resultSet.getInt(SchemDB.COL_PRECIO);
+                double precio = resultSet.getDouble(SchemDB.COL_PRECIO);
                 servicios.add(new Servicio(id, nombre, duracion, precio));
             }
         } catch (SQLException e){
@@ -61,7 +61,7 @@ public class ServicioDAO {
     }
 
     public void eliminarServicio(int id) throws SQLException {
-        String query = String.format("DELETE FROM %s WHERE %s = ?", SchemDB.TAB_SERVICIOS, SchemDB.COL_IDSERVICIO, id);
+        String query = String.format("DELETE FROM %s WHERE %s = ?", SchemDB.TAB_SERVICIOS, SchemDB.COL_IDSERVICIO);
         preparedStatement = conexion.prepareStatement(query);
         preparedStatement.setInt(1, id);
         preparedStatement.execute();

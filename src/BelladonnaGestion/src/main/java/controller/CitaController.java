@@ -6,6 +6,7 @@ import model.Cita;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Scanner;
 
 public class CitaController {
@@ -23,13 +24,20 @@ public class CitaController {
                 1. Ver todas las citas
                 2. Añadir una cita
                 3. Modificar una cita
-                4. Eliminar una cita
-                5. Volver atrás""");
+                4. Eliminar una cita                
+                5. Ver citas de HOY
+                6. Volver atrás""");
             System.out.println();
             System.out.print("Seleccione una opción: ");
             opcion = sc.nextInt();
             switch (opcion) {
-                case 1 -> {citaDAO.obtenerCitas().forEach(System.out::println);}
+                case 1 -> {
+                    try {
+                        citaDAO.obtenerCitasDetalladas(null).forEach(System.out::println);
+                    } catch (SQLException e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
                 case 2 -> {
                     sc.nextLine();
                     System.out.println("ID Cliente: ");
@@ -82,7 +90,19 @@ public class CitaController {
                         System.out.println("No se ha podido eliminar la cita");
                     }
                 }
-                case 5 -> {}
+                case 5 -> {
+                    try {
+                        List<String> citasHoy = citaDAO.obtenerCitasDetalladas(LocalDate.now());
+                        if (citasHoy.isEmpty()) {
+                            System.out.println("No hay citas programadas para hoy");
+                        } else {
+                            citasHoy.forEach(System.out::println);
+                        }
+                    } catch (SQLException e) {
+                        System.out.println("Error al obtener las citas: " + e.getMessage());
+                    }
+                }
+                case 6 -> {}
                 default -> System.out.println("Opción incorrecta");
             }
         }while(opcion!=5);
