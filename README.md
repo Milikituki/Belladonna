@@ -1,4 +1,4 @@
-# 💅 Belladonna Estética
+# Belladonna Estética
 
 Proyecto Intermodular de 1º de DAW — Prometeo by The Power (2025/2026)
 
@@ -98,7 +98,3 @@ La aplicación sigue una arquitectura organizada por capas:
 4. Verifica que el conector `mysql-connector-j` está añadido como dependencia en el `pom.xml`.
 5. Ejecuta la clase `Main.java`.
 
-
-## Autor
-
-Proyecto realizado como parte del Proyecto Intermodular de 1º de DAW.
